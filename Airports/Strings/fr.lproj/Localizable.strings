@@ -1,0 +1,27 @@
+/*
+  Localizable.strings
+  Airports
+ 
+  Created by Mathieu White on 2014-11-10.
+  Copyright (c) 2014 Mathieu White. All rights reserved.
+*/
+
+/** Titre MainViewController **/
+"Airports" = "Aéroports";
+/** Titre MainViewController **/
+
+/** AirportDetailViewController TableViewCell **/
+"ID" = "ID";
+"Code" = "Code";
+"Name" = "Nom";
+"City" = "Ville";
+"Country" = "Pays";
+"Latitude" = "Latitude";
+"Longitude" = "Longitude";
+/** AirportDetailViewController TableViewCell **/
+
+/** AirportDetailViewController Titre Entete **/
+"Identification" = "Identification";
+"Geographic Data" = "Données Géographiques";
+"Geolocation" = "Géolocation";
+/** AirportDetailViewController Titre Entete **/
