@@ -15,8 +15,11 @@
 
 @property (nonatomic, strong) AeroportsDuMonde *airports;
 @property (nonatomic, strong) NSArray *sectionTitles;
+@property (nonatomic, strong) NSMutableArray *filteredAirports;
 
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, weak) UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchDisplayController *searchController;
 
 @end
 
@@ -41,13 +44,27 @@
     [tableView setDelegate: self];
     [tableView setDataSource: self];
     
+    // Initialize the search bar
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    [searchBar setPlaceholder: NSLocalizedString(@"Search", nil)];
+    [searchBar setKeyboardAppearance: UIKeyboardAppearanceLight];
+    
+    // Initialize the Search Display Constroller
+    UISearchDisplayController *searchController = [[UISearchDisplayController alloc] initWithSearchBar: searchBar contentsController: self];
+    [searchController setDelegate: self];
+    [searchController setSearchResultsDataSource: self];
+    [searchController setSearchResultsDelegate: self];
+    
     // Add each component to the view
+    [tableView setTableHeaderView: searchBar];
     [self.view addSubview: tableView];
     
     // Set each component to a property
     [self setAirports: airports];
     [self setSectionTitles: sectionTitles];
     [self setTableView: tableView];
+    [self setSearchBar: searchBar];
+    [self setSearchController: searchController];
     
     // Auto Layout
     [self setupConstraints];
@@ -92,11 +109,17 @@
 
 - (NSInteger) numberOfSectionsInTableView: (UITableView *) tableView
 {
+    if ([tableView isEqual: [self.searchController searchResultsTableView]])
+        return 1;
+    
     return [self.sectionTitles count];
 }
 
 - (NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
+    if ([tableView isEqual: [self.searchController searchResultsTableView]])
+        return [self.filteredAirports count];
+    
     NSString *sectionTitle = [self.sectionTitles objectAtIndex: section];
     NSArray *sectionAirports = [self.airports.dictionnaireAeroports objectForKey: sectionTitle];
     return [sectionAirports count];
@@ -114,7 +137,11 @@
     NSString *sectionTitle = [self.sectionTitles objectAtIndex: [indexPath section]];
     NSArray *sectionAirports = [self.airports.dictionnaireAeroports objectForKey: sectionTitle];
     
-    Aeroport *airport = [sectionAirports objectAtIndex: [indexPath row]];
+    Aeroport *airport;
+    
+    if ([tableView isEqual: [self.searchController searchResultsTableView]])
+        airport = [self.filteredAirports objectAtIndex: [indexPath row]];
+    else airport = [sectionAirports objectAtIndex: [indexPath row]];
     
     [cell.textLabel setText: [airport code]];
     [cell.detailTextLabel setText: [NSString stringWithFormat: @"%@, %@", [airport ville], [airport pays]]];
@@ -125,11 +152,17 @@
 
 - (NSString *) tableView: (UITableView *) tableView titleForHeaderInSection: (NSInteger) section
 {
+    if ([tableView isEqual: [self.searchController searchResultsTableView]])
+        return nil;
+    
     return [self.sectionTitles objectAtIndex: section];
 }
 
 - (NSArray *) sectionIndexTitlesForTableView: (UITableView *) tableView
 {
+    if ([tableView isEqual: [self.searchController searchResultsTableView]])
+        return nil;
+    
     NSArray *keys = [[self.airports.dictionnaireAeroports allKeys] sortedArrayUsingSelector: @selector(localizedStandardCompare:)];
     return keys;
 }
@@ -151,11 +184,36 @@
     NSString *sectionTitle = [self.sectionTitles objectAtIndex: [indexPath section]];
     NSArray *sectionAirports = [self.airports.dictionnaireAeroports objectForKey: sectionTitle];
     
-    Aeroport *airport = [sectionAirports objectAtIndex: [indexPath row]];
+    Aeroport *airport;
+    
+    if ([tableView isEqual: [self.searchController searchResultsTableView]])
+        airport = [self.filteredAirports objectAtIndex: [indexPath row]];
+    else airport = [sectionAirports objectAtIndex: [indexPath row]];
     
     AirportDetailViewController *detailViewController = [[AirportDetailViewController alloc] initWithAirport: airport];
     
     [self.navigationController pushViewController: detailViewController animated: YES];
+}
+
+#pragma mark - Airport Filtering
+
+- (void) filterContentForSearchText: (NSString*) searchText
+{
+    [self.filteredAirports removeAllObjects];
+    
+    // Filter the array using NSPredicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"SELF.code contains[c] %@", searchText];
+    NSMutableArray *filteredAirports = [NSMutableArray arrayWithArray: [self.airports.listeAeroports filteredArrayUsingPredicate: predicate]];
+    
+    [self setFilteredAirports: filteredAirports];
+}
+
+#pragma mark - UISearchDisplayDelegate Methods
+
+- (BOOL) searchDisplayController: (UISearchDisplayController *) controller shouldReloadTableForSearchString: (NSString *) searchString
+{
+    [self filterContentForSearchText: searchString];
+    return YES;
 }
 
 @end
