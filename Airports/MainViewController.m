@@ -11,7 +11,7 @@
 #import "Aeroport.h"
 #import "AirportDetailViewController.h"
 
-@interface MainViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MainViewController ()
 
 @property (nonatomic, strong) AeroportsDuMonde *airports;
 @property (nonatomic, strong) NSArray *sectionTitles;

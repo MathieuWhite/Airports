@@ -29,7 +29,7 @@
     
     if (self)
     {
-        [self setAirport: airport];
+        _airport = airport;
     }
     
     return self;
