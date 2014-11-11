@@ -8,6 +8,7 @@
 
 /** MainViewController Title **/
 "Airports" = "Airports";
+"Search" = "Search";
 /** MainViewController Title **/
 
 /** AirportDetailViewController TableViewCell **/
