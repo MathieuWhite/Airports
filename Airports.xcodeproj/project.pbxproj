@@ -461,6 +461,7 @@
 				4E53177F1A11B6AD002C1FD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4E5317801A11B6AD002C1FD0 /* Build configuration list for PBXNativeTarget "AirportsTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +470,7 @@
 				4E5317821A11B6AD002C1FD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
