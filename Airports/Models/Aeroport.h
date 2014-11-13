@@ -15,10 +15,10 @@
 
 @property (nonatomic) NSInteger ident;          // identificateur OpenFlights
 
-@property (strong, nonatomic) NSString *nom;    // nom de l'aéroport
-@property (strong, nonatomic) NSString *code;   // code IATA ou FAA
-@property (strong, nonatomic) NSString *ville;  // ville où est située l'aéroport
-@property (strong, nonatomic) NSString *pays;   // pays où est située l'aéroport
+@property (nonatomic, copy) NSString *nom;    // nom de l'aéroport
+@property (nonatomic, copy) NSString *code;   // code IATA ou FAA
+@property (nonatomic, copy) NSString *ville;  // ville où est située l'aéroport
+@property (nonatomic, copy) NSString *pays;   // pays où est située l'aéroport
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordonnees;   // coordonnées géographiques
 
