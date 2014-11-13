@@ -112,17 +112,17 @@
     if ([tableView isEqual: [self.searchController searchResultsTableView]])
         return 1;
     
-    return [self.sectionTitles count];
+    return (NSInteger) [self.sectionTitles count];
 }
 
 - (NSInteger) tableView: (UITableView *) tableView numberOfRowsInSection: (NSInteger) section
 {
     if ([tableView isEqual: [self.searchController searchResultsTableView]])
-        return [self.filteredAirports count];
+        return (NSInteger) [self.filteredAirports count];
     
-    NSString *sectionTitle = [self.sectionTitles objectAtIndex: section];
+    NSString *sectionTitle = [self.sectionTitles objectAtIndex: (NSUInteger) section];
     NSArray *sectionAirports = [self.airports.dictionnaireAeroports objectForKey: sectionTitle];
-    return [sectionAirports count];
+    return (NSInteger) [sectionAirports count];
 }
 
 - (UITableViewCell *) tableView: (UITableView *) tableView cellForRowAtIndexPath: (NSIndexPath *) indexPath
@@ -134,14 +134,14 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleValue1 reuseIdentifier: identifier];
     
-    NSString *sectionTitle = [self.sectionTitles objectAtIndex: [indexPath section]];
+    NSString *sectionTitle = [self.sectionTitles objectAtIndex: (NSUInteger) [indexPath section]];
     NSArray *sectionAirports = [self.airports.dictionnaireAeroports objectForKey: sectionTitle];
     
     Aeroport *airport;
     
     if ([tableView isEqual: [self.searchController searchResultsTableView]])
-        airport = [self.filteredAirports objectAtIndex: [indexPath row]];
-    else airport = [sectionAirports objectAtIndex: [indexPath row]];
+        airport = [self.filteredAirports objectAtIndex: (NSUInteger) [indexPath row]];
+    else airport = [sectionAirports objectAtIndex: (NSUInteger) [indexPath row]];
     
     [cell.textLabel setText: [airport code]];
     [cell.detailTextLabel setText: [NSString stringWithFormat: @"%@, %@", [airport ville], [airport pays]]];
@@ -155,7 +155,7 @@
     if ([tableView isEqual: [self.searchController searchResultsTableView]])
         return nil;
     
-    return [self.sectionTitles objectAtIndex: section];
+    return [self.sectionTitles objectAtIndex: (NSUInteger) section];
 }
 
 - (NSArray *) sectionIndexTitlesForTableView: (UITableView *) tableView
@@ -169,7 +169,7 @@
 
 - (NSInteger) tableView: (UITableView *) tableView sectionForSectionIndexTitle: (NSString *) title atIndex: (NSInteger) index
 {
-    return [self.sectionTitles indexOfObject: title];
+    return (NSInteger) [self.sectionTitles indexOfObject: title];
 }
 
 #pragma mark UITableViewDelegate Methods
@@ -181,14 +181,14 @@
 
 - (void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath
 {
-    NSString *sectionTitle = [self.sectionTitles objectAtIndex: [indexPath section]];
+    NSString *sectionTitle = [self.sectionTitles objectAtIndex: (NSUInteger) [indexPath section]];
     NSArray *sectionAirports = [self.airports.dictionnaireAeroports objectForKey: sectionTitle];
     
     Aeroport *airport;
     
     if ([tableView isEqual: [self.searchController searchResultsTableView]])
-        airport = [self.filteredAirports objectAtIndex: [indexPath row]];
-    else airport = [sectionAirports objectAtIndex: [indexPath row]];
+        airport = [self.filteredAirports objectAtIndex: (NSUInteger) [indexPath row]];
+    else airport = [sectionAirports objectAtIndex: (NSUInteger) [indexPath row]];
     
     AirportDetailViewController *detailViewController = [[AirportDetailViewController alloc] initWithAirport: airport];
     
