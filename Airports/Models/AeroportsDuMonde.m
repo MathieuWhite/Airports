@@ -24,13 +24,16 @@
 @implementation AeroportsDuMonde
 
 // Accesseur de propriété (lazy instanciation) extrayant les données du fichier de données au besoin
-- (NSArray *)listeAeroports {
+- (NSArray *)listeAeroports
+{
     if (!_listeAeroports)
+    {
         _listeAeroports = [self chargerDonneesAeroports];
     
-    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey: @"code" ascending: YES];
-    NSArray *descriptor = [NSArray arrayWithObject: valueDescriptor];
-    _listeAeroports = [_listeAeroports sortedArrayUsingDescriptors: descriptor];
+        NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey: @"code" ascending: YES];
+        NSArray *descriptor = [NSArray arrayWithObject: valueDescriptor];
+        _listeAeroports = [_listeAeroports sortedArrayUsingDescriptors: descriptor];
+    }
     
     return _listeAeroports;
 }
