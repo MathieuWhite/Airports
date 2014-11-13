@@ -62,59 +62,10 @@
     [self setupConstraints];
 }
 
-- (void) viewDidAppear: (BOOL) animated
-{
-    [super viewDidAppear: animated];
-    
-    //[self setupMapView];
-    
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Private Instance Methods
-
-- (void) setupMapView
-{
-    // Initialize a map view
-    MKMapView *mapView = [[MKMapView alloc] init];
-    [mapView setUserInteractionEnabled: NO];
-    [mapView setShowsPointsOfInterest: NO];
-    [mapView setTranslatesAutoresizingMaskIntoConstraints: NO];
-    [mapView setDelegate: self];
-    
-    // Set the region to the airport location
-    MKCoordinateRegion airportRegion = MKCoordinateRegionMakeWithDistance([self.airport coordonnees], 140, 140);
-    [mapView setRegion: airportRegion animated: NO];
-    
-    // Add the point annotation
-    MKPointAnnotation *pin = [[MKPointAnnotation alloc] init];
-    [pin setCoordinate: [self.airport coordonnees]];
-    [mapView addAnnotation: pin];
-    
-    [self.mapContainer addSubview: mapView];
-    
-    // Map View Auto Layout
-    NSDictionary *views = @{@"mapView" : mapView};
-    
-    NSArray *mapHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat: @"H:|[mapView]|"
-                                                                                options: 0
-                                                                                metrics: nil
-                                                                                  views: views];
-    
-    NSArray *mapVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat: @"V:|[mapView]|"
-                                                                              options: 0
-                                                                              metrics: nil
-                                                                                views: views];
-    
-    [self.mapContainer addConstraints: mapHorizontalConstraints];
-    [self.mapContainer addConstraints: mapVerticalConstraints];
-    
-    [self setMapView: mapView];
 }
 
 #pragma mark - Auto Layout Method
