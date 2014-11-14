@@ -36,7 +36,7 @@
     AeroportsDuMonde *airports = [[AeroportsDuMonde alloc] init];
     
     // Initialize the airport index titles
-    NSArray *sectionTitles = [[airports.dictionnaireAeroports allKeys] sortedArrayUsingSelector: @selector(localizedStandardCompare:)];
+    NSArray *sectionTitles = [[airports.dictionnaireAeroports allKeys] sortedArrayUsingSelector: @selector(compare:)];
     
     // Initialize the table view
     UITableView *tableView = [[UITableView alloc] init];
@@ -46,6 +46,7 @@
     
     // Initialize the search bar
     UISearchBar *searchBar = [[UISearchBar alloc] init];
+    [searchBar setSearchBarStyle: UISearchBarStyleMinimal];
     [searchBar setPlaceholder: NSLocalizedString(@"Search", nil)];
     [searchBar setKeyboardAppearance: UIKeyboardAppearanceLight];
     

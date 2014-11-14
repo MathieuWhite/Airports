@@ -63,9 +63,13 @@
     }
     
     // Sort the array by airport code
-    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey: @"code" ascending: YES];
-    NSArray *descriptor = [NSArray arrayWithObject: valueDescriptor];
-    NSArray *sortedArray = [arr sortedArrayUsingDescriptors: descriptor];
+    NSArray *sortedArray = [arr sortedArrayUsingComparator: ^(id obj1, id obj2)
+    {
+        NSString *airportCode1 = [(Aeroport *) obj1 code];
+        NSString *airportCode2 = [(Aeroport*) obj2 code];
+        
+        return [airportCode1 compare: airportCode2];
+    }];
     
     return sortedArray;
 }
