@@ -27,13 +27,7 @@
 - (NSArray *)listeAeroports
 {
     if (!_listeAeroports)
-    {
         _listeAeroports = [self chargerDonneesAeroports];
-    
-        NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey: @"code" ascending: YES];
-        NSArray *descriptor = [NSArray arrayWithObject: valueDescriptor];
-        _listeAeroports = [_listeAeroports sortedArrayUsingDescriptors: descriptor];
-    }
     
     return _listeAeroports;
 }
@@ -68,7 +62,12 @@
             [arr addObject:ap];
     }
     
-    return arr;
+    // Sort the array by airport code
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey: @"code" ascending: YES];
+    NSArray *descriptor = [NSArray arrayWithObject: valueDescriptor];
+    NSArray *sortedArray = [arr sortedArrayUsingDescriptors: descriptor];
+    
+    return sortedArray;
 }
 
 // Créer un dictionnaire à partir de la liste d'aéroports lues du fichier de données. Ce dictionnaire
